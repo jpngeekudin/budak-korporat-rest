@@ -17,6 +17,8 @@ router.get('/get', async function(req, res, next) {
     if (search) {
       const regx = new RegExp(search, 'i');
       filter.push({ username: regx });
+      filter.push({ name: regx });
+      filter.push({ telegram: regx });
     }
 
     const query: any = { };
@@ -69,11 +71,13 @@ router.get('/get/:id', async function(req, res, next) {
 
 router.post('/create', async function(req, res, next) {
   try {
+    const name: string = req.body.name;
     const username: string = req.body.username;
     const password: string = req.body.password;
+    const telegram: string = req.body.telegram;
     const role: string = req.body.role;
 
-    const user = new userModel({ username, password, role });
+    const user = new userModel({ username, password, role, name, telegram });
     const save = await user.save();
 
     return res.json({
@@ -95,12 +99,14 @@ router.post('/create', async function(req, res, next) {
 router.post('/update/:id', async function(req, res, next) {
   try {
     const id = req.params.id;
+    const name: string = req.body.name;
     const username: string = req.body.username;
     const password: string = req.body.password;
     const role: string = req.body.role;
+    const telegram: string = req.body.telegram;
 
     const update = await userModel.findOneAndUpdate({ _id: id }, {
-      username, password, role
+      username, password, role, name, telegram
     }, { runValidators: true });
 
     return res.json({

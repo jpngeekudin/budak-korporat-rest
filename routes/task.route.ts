@@ -35,11 +35,18 @@ router.get('/get', async function(req, res, next) {
       .populate({
         path: 'team',
         model: 'Team',
-        populate: {
-          path: 'members',
-          model: 'User',
-          select: '-__v'
-        }
+        populate: [
+          {
+            path: 'members',
+            model: 'User',
+            select: '-__v'
+          },
+          {
+            path: 'leader',
+            model: 'User',
+            select: '-__v'
+          }
+        ]
       })
       .limit(size)
       .skip(size * page)
@@ -54,7 +61,7 @@ router.get('/get', async function(req, res, next) {
   }
 
   catch(err) {
-    res.json({
+    res.status(500).json({
       status: false,
       data: [],
       message: err,

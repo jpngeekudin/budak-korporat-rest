@@ -11,6 +11,7 @@ const progressRouter = require('./routes/progress.route');
 const taskRouter = require('./routes/task.route');
 const teamRouter = require('./routes/team.route');
 const authRouter = require('./routes/auth.route');
+const statisticRouter = require('./routes/statistics.route');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use('/user', userRouter);
 app.use('/task', taskRouter);
 app.use('/team', teamRouter);
 app.use('/progress', progressRouter);
+app.use('/statistic', statisticRouter);
 app.use('/auth', authRouter);
 
 module.exports = app;
